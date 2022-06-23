@@ -9,22 +9,50 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Penote',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Center(
-            child: Text('Penote'),
-          ),
-        ),
-        bottomNavigationBar: const BottomMenu(),
-        body: const ItemList(),
-        floatingActionButton: const FloatingActionButton(
-          onPressed: null,
-          child: Icon(Icons.add),
-          tooltip: 'Add',
+      home: AddItemScreen(),
+    );
+  }
+}
+
+class AddItemScreen extends StatelessWidget {
+  const AddItemScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(
+          child: Text('Penote'),
         ),
       ),
+      bottomNavigationBar: const BottomMenu(),
+      body: const ItemList(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const NewItemScreen()));
+        },
+        child: const Icon(Icons.add),
+        tooltip: 'Add',
+      ),
+    );
+  }
+}
+
+class NewItemScreen extends StatefulWidget {
+  const NewItemScreen({Key? key}) : super(key: key);
+
+  @override
+  _NewItemScreenState createState() => _NewItemScreenState();
+}
+
+class _NewItemScreenState extends State<NewItemScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Add Note')),
     );
   }
 }
