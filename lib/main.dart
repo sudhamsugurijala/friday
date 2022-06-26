@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(const MyApp());
@@ -80,22 +81,42 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class ToDoScreen extends StatelessWidget {
-  ToDoScreen({Key? key}) : super(key: key);
+class ToDoScreen extends StatefulWidget {
+  const ToDoScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ToDoScreen> createState() => _ToDoScreenState();
+}
+
+class _ToDoScreenState extends State<ToDoScreen> {
   final List<String> items =
       List<String>.generate(20, (index) => 'Todo $index');
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (context, index) {
-        return Card(
-          child: SizedBox(
-            width: double.maxFinite,
-            height: 100,
-            child: Center(
-              child: Text(items[index]),
+        return Dismissible(
+          key: Key(items[index]),
+          onDismissed: (direction) {
+            setState(() {
+              items.removeAt(index);
+            });
+          },
+          background: Container(
+            color: Colors.green,
+          ),
+          secondaryBackground: Container(
+            color: Colors.red,
+          ),
+          child: Card(
+            child: SizedBox(
+              width: double.maxFinite,
+              height: 100,
+              child: Center(
+                child: Text(items[index]),
+              ),
             ),
           ),
         );
